@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" 
+			 xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+			 xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" 
+			 xmlns:tns="http://com.paypal.genio.sample" 
+			 xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+			 xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+			 xmlns="http://schemas.xmlsoap.org/wsdl/" 
+			 targetNamespace="http://com.paypal.genio.sample">
+
+<wsdl:types>
+<xsd:schema xmlns:annox="http://annox.dev.java.net" xmlns:ov="http://annox.dev.java.net/net.sf.oval.constraint" xmlns:sec="http://annox.dev.java.net/com.paypal.foundation.security.annotation" xmlns:ppv="http://annox.dev.java.net/com.paypal.foundation.validation.oval" xmlns:ppc="http://annox.dev.java.net/com.paypal.foundation.validation.oval.constraint" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://com.paypal.genio.sample">
+  
+  <xsd:complexType name="SayHelloRequest">
+    <xsd:sequence>
+      <xsd:element name="message" type="xsd:string" minOccurs="1" maxOccurs="1"></xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="SayHelloResponse">
+    <xsd:sequence>
+      <xsd:element name="message" type="xsd:string" minOccurs="1" maxOccurs="1"></xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:element name="SayHelloRequest" type="tns:SayHelloRequest"/>
+  <xsd:element name="SayHelloResponse" type="tns:SayHelloResponse"/>
+</xsd:schema>
+</wsdl:types>
+
+<message name="sayHelloRequest">
+  <part name="message" element="tns:SayHelloRequest" />
+</message>
+
+<message name="sayHelloResponse">
+  <part name="return" element="tns:SayHelloResponse"/>
+</message>
+
+<portType name="geniosamplePortType">
+  <operation name="sayHello">
+    <input message="tns:sayHelloRequest"/>
+    <output message="tns:sayHelloResponse"/>
+  </operation>  
+</portType>
+
+<binding name="geniosampleBinding" type="tns:geniosamplePortType">
+  <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+  <operation name="sayHello">
+    <soap:operation soapAction="uri:com.paypal.genio.sample/sayHello" style="document"/>  
+    <input>
+      <soap:body use="literal"/>
+    </input>
+    <output>
+      <soap:body use="literal"/>
+    </output>
+  </operation>
+</binding>
+
+<service name="geniosample">
+  <port name="geniosamplePort" binding="tns:geniosampleBinding">
+  <soap:address location="http://localhost/app.php"/>
+  </port>
+</service>
+</definitions>
